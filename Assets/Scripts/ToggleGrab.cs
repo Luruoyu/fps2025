@@ -17,6 +17,11 @@ public class ToggleGrab : XRGrabInteractable
     [SerializeField]
     private float m_DelayedBoomTime = 2.0f;
     private AudioSource m_AudioSource;
+    [SerializeField]
+    private GameObject m_FireEffect;
+    [SerializeField]
+    private Transform m_FireSpot;
+    
 
     protected override void Awake()
     {
@@ -72,6 +77,19 @@ public class ToggleGrab : XRGrabInteractable
     {
         yield return new WaitForSeconds(m_DelayedBoomTime);  // 等待一段时间再执行接下来的操作
         Debug.Log("boom!!!");
+        this.gameObject.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);   // 缩小，跟光学上消失也差不多
+        //GetComponent<MeshRenderer>().enabled = false;   //让物体光学隐身。但有的物体没这个组件
+        ShowEffectGrenade();
         m_AudioSource.Play();
+        Destroy(this.gameObject, 3.0f);
     }
+
+    private void ShowEffectGrenade()
+    {
+        m_FireEffect.transform.position = transform.position;
+        GameObject boomFire = Instantiate(m_FireEffect);
+        Destroy(boomFire, 1.5f);
+    }
+
+    
 }
