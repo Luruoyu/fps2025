@@ -9,6 +9,7 @@ public class ZombieController : MonoBehaviour
     private float m_Power = 500;
     private float m_AttackLoopTime = 0.5f;
     private bool m_IsAttacking;
+    private bool m_WasAttacking = false;
     private GameObject player;
     // Start is called before the first frame update
     void Start()
@@ -47,6 +48,7 @@ public class ZombieController : MonoBehaviour
     {
         DeadAnimation();
         m_IsAttacking = false;
+        m_WasAttacking = false;
         Destroy(this.gameObject, 2.0f);
     }
 
@@ -54,12 +56,17 @@ public class ZombieController : MonoBehaviour
     {
         AttackAnimation();
         m_IsAttacking = true;
-        StartCoroutine(Attack2());
+        if (m_WasAttacking == false)
+        {
+            StartCoroutine(Attack2());
+        }
+        m_WasAttacking = true;
     }
 
     public void Walk()
     {
         m_IsAttacking = false;
+        m_WasAttacking = false;
         WalkAnimation();
     }
 
