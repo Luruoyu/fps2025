@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject enemyPrefab;
     private GameObject[] spawnSpots;
-    private float m_StartTime = 200000;  // 运行2s后开始生成
+    private float m_StartTime = 10000;  // 运行2s后开始生成
     private float m_LoopTime = 1;
     private float m_RemainedTime;
     // Start is called before the first frame update

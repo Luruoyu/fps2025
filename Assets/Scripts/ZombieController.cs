@@ -1,20 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ZombieController : MonoBehaviour
 {
-    private int HP;
+    private float HP;
+    private float totalHP;
     private Animator m_Animator;
-    private float m_Power = 500;
+    private float m_Power = 1;
     private float m_AttackLoopTime = 0.5f;
     private bool m_IsAttacking;
     private bool m_WasAttacking = false;
     private GameObject player;
+    [SerializeField]
+    private Image HpImage;
     // Start is called before the first frame update
     void Start()
     {
         HP = 1000;
+        totalHP = HP;
         m_Animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("MainCamera");
     }
@@ -26,6 +31,7 @@ public class ZombieController : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("MainCamera");
         }
+        HpImage.fillAmount = HP / totalHP;
         if (HP <= 0)
         {
             Dead();
@@ -93,7 +99,7 @@ public class ZombieController : MonoBehaviour
 
     IEnumerator Attack2()
     {
-        // 目前的问题：会一直循环调用
+        // 通过wasAttacking变量避免反复调用
         while (true)
         {
             yield return new WaitForSeconds(m_AttackLoopTime);            
